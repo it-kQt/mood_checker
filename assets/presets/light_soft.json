@@ -1,0 +1,30 @@
+﻿{
+  "schemaVersion": 1,
+  "id": "light_soft",
+  "name": "Light Soft",
+  "description": "Светлая мягкая с пастельными акцентами",
+  "baseTheme": "light",
+  "colorScheme": {
+    "primary": "#FF6BA3FF",
+    "onPrimary": "#FF0B0E11",
+    "secondary": "#FF96E6B3",
+    "onSecondary": "#FF0B0E11",
+    "tertiary": "#FFFFD6A5",
+    "onTertiary": "#FF0B0E11",
+    "surface": "#FFFFFFFF",
+    "onSurface": "#FF1C1C1C",
+    "background": "#FFF7F8FA",
+    "onBackground": "#FF1C1C1C",
+    "error": "#FFB00020",
+    "onError": "#FFFFFFFF",
+    "outline": "#FFE5E7EB"
+  },
+  "extended": {
+    "gradientPalette": ["#FF6BA3FF", "#FF96E6B3"],
+    "gradientAnimation": "subtle",
+    "thumbShape": "circle",
+    "trackStyle": "rounded",
+    "tickStyle": "lines",
+    "cornerRadius": 12
+  }
+}

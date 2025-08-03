@@ -1,0 +1,27 @@
+﻿# Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.melos_tool/
+
+# Android
+android/.gradle/
+android/captures/
+android/.idea/
+
+# iOS
+ios/Pods/
+ios/.generated/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/.symlinks/
+
+# VS Code / IntelliJ
+.vscode/
+.idea/
+*.iml
+
+# Other
+pubspec.lock

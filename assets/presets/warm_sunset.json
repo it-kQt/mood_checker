@@ -1,0 +1,30 @@
+﻿{
+  "schemaVersion": 1,
+  "id": "warm_sunset",
+  "name": "Warm Sunset",
+  "description": "Тёплый закат, дружелюбная",
+  "baseTheme": "light",
+  "colorScheme": {
+    "primary": "#FFFF6B6B",
+    "onPrimary": "#FF0B0E11",
+    "secondary": "#FFFFC857",
+    "onSecondary": "#FF0B0E11",
+    "tertiary": "#FFFF9E2C",
+    "onTertiary": "#FF0B0E11",
+    "surface": "#FFFFFFFF",
+    "onSurface": "#FF262626",
+    "background": "#FFFFFAF5",
+    "onBackground": "#FF1E1E1E",
+    "error": "#FFB3261E",
+    "onError": "#FFFFFFFF",
+    "outline": "#FFE6D9C7"
+  },
+  "extended": {
+    "gradientPalette": ["#FFFF6B6B", "#FFFFC857", "#FFFF9E2C"],
+    "gradientAnimation": "valueBased",
+    "thumbShape": "square",
+    "trackStyle": "gradient",
+    "tickStyle": "lines",
+    "cornerRadius": 10
+  }
+}

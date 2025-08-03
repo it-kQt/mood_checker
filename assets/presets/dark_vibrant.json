@@ -1,0 +1,30 @@
+﻿{
+  "schemaVersion": 1,
+  "id": "dark_vibrant",
+  "name": "Dark Vibrant",
+  "description": "Контрастная тёмная с насыщенными акцентами",
+  "baseTheme": "dark",
+  "colorScheme": {
+    "primary": "#FF7C4DFF",
+    "onPrimary": "#FFFFFFFF",
+    "secondary": "#FF00D1B2",
+    "onSecondary": "#FF0B0E11",
+    "tertiary": "#FFFFC857",
+    "onTertiary": "#FF0B0E11",
+    "surface": "#FF121212",
+    "onSurface": "#FFE6E6E6",
+    "background": "#FF0B0E11",
+    "onBackground": "#FFE6E6E6",
+    "error": "#FFCF6679",
+    "onError": "#FF000000",
+    "outline": "#FF2F2F2F"
+  },
+  "extended": {
+    "gradientPalette": ["#FF7C4DFF", "#FF00D1B2", "#FFFFC857"],
+    "gradientAnimation": "flow",
+    "thumbShape": "arrow",
+    "trackStyle": "gradient",
+    "tickStyle": "dots",
+    "cornerRadius": 14
+  }
+}

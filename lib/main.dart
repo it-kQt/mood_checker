@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 import 'features/day/presentation/day_provider.dart';
 import 'features/day/presentation/pages/home_page.dart';
 import 'features/config/config_service.dart';
+import 'core/storage/hive_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  await HiveService.init();
   await ConfigService.init(); // регистрирует адаптеры и открывает box
   runApp(const MyApp());
 }
@@ -28,3 +30,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+

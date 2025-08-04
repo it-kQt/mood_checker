@@ -4,6 +4,7 @@ import "package:it_kqt_mood/features/day/presentation/day_provider.dart";
 import "package:it_kqt_mood/features/day/presentation/pages/day_edit_page.dart";
 import "package:it_kqt_mood/features/day/presentation/widgets/gradient_slider.dart";
 import "package:it_kqt_mood/features/day/presentation/widgets/circle_emotions.dart";
+import "package:it_kqt_mood/features/settings/presentation/pages/settings_page.dart";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -75,12 +76,20 @@ class _HomePageState extends State<HomePage> {
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: () async {
-                    await prov.addQuickEvent(
-                      emotionId: emotionId,
-                      intensity: value.round(),
-                      note: noteCtrl.text.trim(),
-                    );
-                    if (mounted) Navigator.pop(ctx);
+                    try {
+                      await prov.addQuickEvent(
+                        emotionId: emotionId,
+                        intensity: value.round(),
+                        note: noteCtrl.text.trim(),
+                      );
+                      if (ctx.mounted) Navigator.of(ctx).pop(); // закрыть шторку
+                    } catch (e) {
+                      if (ctx.mounted) {
+                        ScaffoldMessenger.of(ctx).showSnackBar(
+                          SnackBar(content: Text("Ошибка: $e")),
+                        );
+                      }
+                    }
                   },
                   child: const Text("Сохранить"),
                 ),
@@ -107,6 +116,38 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Дневник настроения"),
+        leading: Builder(
+          builder: (ctx) => IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () => Scaffold.of(ctx).openDrawer(),
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          ),
+        ),
+      ),
+      drawer: Drawer(
+        child: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                child: Text("Меню"),
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text("Настройки"),
+                onTap: () async {
+                  Navigator.of(context).pop(); // закрыть Drawer
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const SettingsPage()),
+                  );
+                  if (context.mounted) {
+                    await context.read<DayProvider>().refreshToday();
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),

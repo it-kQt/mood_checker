@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+﻿import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:it_kqt_mood/features/day/presentation/day_provider.dart";
 import "package:it_kqt_mood/features/day/presentation/widgets/gradient_slider.dart";
@@ -13,6 +13,7 @@ class DayEditPage extends StatefulWidget {
 class _DayEditPageState extends State<DayEditPage> {
   final Map<String, double> _values = {};
   final _noteCtrl = TextEditingController();
+  bool _saving = false;
 
   @override
   void initState() {
@@ -33,6 +34,31 @@ class _DayEditPageState extends State<DayEditPage> {
     super.dispose();
   }
 
+  Future<void> _save() async {
+    if (_saving) return;
+    setState(() => _saving = true);
+    final prov = context.read<DayProvider>();
+    try {
+      final map = _values.map((k, v) => MapEntry(k, v.round()));
+      for (final entry in map.entries) {
+        await prov.addQuickEvent(
+          emotionId: entry.key,
+          intensity: entry.value,
+          note: _noteCtrl.text.trim(),
+        );
+      }
+      if (!mounted) return;
+      Navigator.of(context).pop(); // закрыть экран
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Ошибка сохранения: $e")),
+      );
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final prov = context.watch<DayProvider>();
@@ -43,18 +69,8 @@ class _DayEditPageState extends State<DayEditPage> {
         title: const Text("Как прошел день?"),
         actions: [
           TextButton(
-            onPressed: () async {
-              final map = _values.map((k, v) => MapEntry(k, v.round()));
-              for (final entry in map.entries) {
-                await prov.addQuickEvent(
-                  emotionId: entry.key,
-                  intensity: entry.value,
-                  note: _noteCtrl.text.trim(),
-                );
-              }
-              if (mounted) Navigator.pop(context);
-            },
-            child: const Text("Сохранить"),
+            onPressed: _saving ? null : _save,
+            child: _saving ? const Text("...") : const Text("Сохранить"),
           ),
         ],
       ),
@@ -62,21 +78,30 @@ class _DayEditPageState extends State<DayEditPage> {
         padding: const EdgeInsets.all(16),
         children: [
           for (final emo in cfg.emotions.where((e) => e.enabled)) ...[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("${emo.emoji} ${emo.name}"),
-                Text((_values[emo.id] ?? cfg.scaleMin.toDouble()).round().toString()),
-              ],
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _values[emo.id] = cfg.scaleMin.toDouble();
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("${emo.emoji} ${emo.name}"),
+                  Text((_values[emo.id] ?? cfg.scaleMin.toDouble()).round().toString()),
+                ],
+              ),
             ),
+            const SizedBox(height: 6),
             GradientSlider(
+              showResetButton: false,
               min: cfg.scaleMin.toDouble(),
               max: cfg.scaleMax.toDouble(),
               color: Color(emo.color),
               value: (_values[emo.id] ?? cfg.scaleMin.toDouble()),
               onChanged: (v) => setState(() => _values[emo.id] = v),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
           ],
           const SizedBox(height: 16),
           const Text("Заметка", style: TextStyle(fontWeight: FontWeight.bold)),
@@ -95,3 +120,4 @@ class _DayEditPageState extends State<DayEditPage> {
     );
   }
 }
+
